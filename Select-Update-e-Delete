@@ -1,0 +1,125 @@
+Cadastro de Clientes
+
+FORMULÁRIO -> CADASTRO.PHP
+
+<html>
+        <head><meta charset="utf8"><title>Sistema de Cadastro</title></head>
+<body>
+<form name="signup" method="post" action="cadastrando.php">
+        <label> NOME COMPLETO: </label>
+        <input type="text" name="nome" /><br />
+        <label> ENDERECO: </label>
+        <input type="text" name="endereco" /><br />
+        <label> CIDADE: </label>
+        <input type="text" name="cidade" /><br />
+        <label> ESTADO: </label>
+        <input type="text" name="estado" /><br />
+        <label> PAIS </label>
+        <input type="text" name="pais" /><br />
+        <label> CELULAR: </label>
+        <input type="text" name="celular" /><br />
+        <label> E-MAIL: </label>
+        <input type="text" name="email" /><br />
+<input type="submit" value="CADASTRAR">
+<input type="reset" value="NOVO CADASTRO">
+</table>
+</form>
+</body>
+</html>
+------------------------------------------------------------------------------------------------
+ARQUIVO INSERE CADASTRO -> CADASTRANDO.PHP
+
+
+<html>
+        <head><title> Cadastro de Clientes</title></head>
+<body>
+<?php
+$host="localhost";
+$user="root";
+$pass="alison";
+$banco="CADASTRO";
+$conexao=mysql_connect("localhost", "root", "alison") or die("Banco de dados Off_line");
+mysql_select_db($banco) or die("Tabela não conectada");
+?>
+<?php
+$nome=$_POST['nome'];
+$endereco=$_POST['endereco'];
+$cidade=$_POST['cidade'];
+$estado=$_POST['estado'];
+$pais=$_POST['pais'];
+$celular=$_POST['celular'];
+$email=$_POST['email'];
+$sql=mysql_query("INSERT INTO CLIENTES(nome, endereco, cidade, estado, pais, celular, email) 
+VALUES('$nome', '$endereco, '$cidade', $estado", '$pais', '$celular, '$email')");
+echo"Dados cadastrados com sucesso!";
+echo"<br>";
+?>
+<input type="button" value="VOLTAR" onClick="history.go(-1)">
+
+//SELECT
+
+<?php
+echo"<br>";
+$mysqli=mysqli_connect('localhost', 'root', 'alison', 'CADASTRO');
+$query="SELECT * from CLIENTES";
+$result=$mysqli->query($query);
+while($fetch = $result->fetch_assoc()) {
+echo"<br>";
+foreach($fetch as $field => $value) {
+echo $field . ' => ' . $value . ' | ';
+}
+echo "<br>";
+mysql_close($conexao);
+}
+?>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------
+UPDATE -> ATUALIZA.PHP
+
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "alison";
+$dbname = "CADASTRO";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "UPDATE CLIENTES SET nome='ALISON SILVA' WHERE id=548";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Dado atualizado com sucesso";
+} else {
+    echo "Dado nao atualizado" . $conn->error;
+}
+$conn->close();
+?>
+-------------------------------------------------------------------------------------------
+DELETAR -> DELETAR.PHP
+
+  GNU nano 2.4.2                    Arquivo: deletar.php                                                 
+
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "alison";
+$dbname = "CADASTRO";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sql = "DELETE FROM CLIENTES WHERE id=552";
+if ($conn->query($sql) === TRUE) {
+    echo "Dado removido com sucesso";
+} else {
+    echo "Erro de deleção, dado ainda persiste" . $conn->error;
+}
+$conn->close();
+?>
+----------------------------------------------------------------------------------------------
